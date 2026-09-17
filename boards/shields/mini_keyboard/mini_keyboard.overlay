@@ -39,3 +39,7 @@
             ;
     };
 };
+
+&bt_hids {
+    boot-protocol;
+};
