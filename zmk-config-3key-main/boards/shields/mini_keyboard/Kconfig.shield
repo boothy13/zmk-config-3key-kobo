@@ -1,2 +1,0 @@
-config SHIELD_MINI_KEYBOARD
-    def_bool $(shields_list_contains,mini_keyboard)
