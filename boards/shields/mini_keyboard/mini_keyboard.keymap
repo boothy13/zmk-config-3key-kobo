@@ -45,7 +45,7 @@
 
         default_layer {
             bindings = <
-                &kp LEFT    &kp SPACE    &kp RIGHT
+                &kp C_PREV    &kp C_PLAY_PAUSE    &kp C_NEXT
             >;
         };
     };
