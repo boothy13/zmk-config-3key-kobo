@@ -1,0 +1,17 @@
+manifest:
+  defaults:
+    revision: main
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+    - name: myfork
+      url-base: https://github.com/boothy13
+    # Additional modules containing boards/shields/custom code can be listed here as well
+    # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
+  projects:
+    - name: zmk
+      remote: myfork
+      revision: kobo-remote-hid
+      import: app/west.yml
+  self:
+    path: config
