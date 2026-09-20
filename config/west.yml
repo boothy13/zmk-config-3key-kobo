@@ -10,7 +10,6 @@ manifest:
     # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
   projects:
     - name: zmk
-      remote: zmkfirmware
       remote: zmk-kobo
       revision: kobo-remote-hid
       import: app/west.yml
