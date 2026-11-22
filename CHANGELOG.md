@@ -45,6 +45,38 @@ What changed and why:
 4. On the Kobo, open Settings → Bluetooth, scan, and pick **Page Turner**.
 5. The keys send Left / Enter / Right. Kobo turns pages on arrow keys.
 
+## Findings from the Kobo itself (kobo-bt-dump, 22 Nov 2026)
+
+- Kobo software 4.46.23852. Bluetooth runs on Kobo's MediaTek service
+  (`com.kobo.mtk.bluedroid`), not BlueZ.
+- Nickel scans with `Transport=auto, RSSI=-90`. The service picks up about
+  20 nearby devices, both classic Bluetooth and Low Energy (LE). That includes
+  LE devices with random static addresses (`C3:`, `D4:`, `D8:`).
+- **The 3-key board (C8:ED:3A:21:78:D3) never shows up, not even in the raw
+  results.** We checked this while nRF Connect on a phone showed it
+  advertising.
+- The Xbox controller, which the Kobo *does* list, is classic Bluetooth.
+  It has Class 0x508 (peripheral/gamepad) and Icon "input-gaming".
+  Every LE device comes through as Class 0x1F00 (uncategorised) with
+  Appearance 0. Nickel's list was empty while only those devices were found,
+  so Nickel probably also filters on class or icon. That will matter once the
+  board is actually received.
+- ZMK v0.3 **hardcodes** the advertised appearance (0x03C1, keyboard).
+  So none of the earlier `CONFIG_BT_DEVICE_APPEARANCE` changes ever reached
+  the radio.
+
+### Discovery experiments
+`zmk-patches/0002-ble-configurable-advertising-data.patch` makes each part of
+the advertisement optional. `build.yaml` builds one test firmware per change:
+
+| Firmware | Advertisement |
+|---|---|
+| `mini_keyboard_with_studio` | appearance + flags + HID/Battery UUIDs + name (stock) |
+| `kobo_test_A_bare_name_only` | flags + name only |
+| `kobo_test_B_no_appearance` | flags + UUIDs + name |
+| `kobo_test_C_no_service_uuids` | appearance + flags + name |
+| `kobo_test_D_name_in_scan_response` | stock, but the name is in the scan response |
+
 ## What Copilot tried before (all unsuccessful)
 
 Rebuilt from git history. None of these touched pairing security.
