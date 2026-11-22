@@ -1,17 +1,16 @@
 manifest:
   defaults:
-    revision: main
+    revision: v0.3
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    - name: zmk-kobo
-      url-base: https://github.com/boothy13
-    # Additional modules containing boards/shields/custom code can be listed here as well
-    # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
   projects:
+    # Stock upstream ZMK, pinned to the same release as the build workflow.
+    # Kobo-specific changes live in ../zmk-patches and are applied by
+    # .github/workflows/build.yml after `west update`.
     - name: zmk
-      remote: zmk-kobo
-      revision: kobo-remote-hid
+      remote: zmkfirmware
+      revision: v0.3
       import: app/west.yml
   self:
     path: config

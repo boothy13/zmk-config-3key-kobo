@@ -32,6 +32,14 @@
             bindings = <&studio_unlock>;
         };
 
+        // Middle + Right = switch to the next Bluetooth profile.
+        // Use a free profile for the Kobo so it doesn't fight the phone/PC.
+        combo_bt_next {
+            timeout-ms = <100>;
+            key-positions = <1 2>;
+            bindings = <&bt BT_NXT>;
+        };
+
         // All 3 Keys = BT Clear (Hold 2s)
         combo_bt_clr {
             timeout-ms = <100>;
