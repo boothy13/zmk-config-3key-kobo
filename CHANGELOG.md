@@ -83,6 +83,36 @@ Result of test A: still not seen by the Kobo, so the advertisement contents
 are not the (only) cause. Tests E and F check the address and signal strength
 next.
 
+Results:
+- A phone (Pixel 9 Pro running the nRF Connect advertiser) sent a minimal
+  connectable advertisement with HID 0x1812. The Kobo **received it, gave it
+  Class 0x500 and listed it in Settings > Bluetooth**. So Nickel will show an
+  LE HID device.
+- Test E (new address F2:4B:1E:7A:33:C5, confirmed with nRF Connect): still
+  not received.
+- Signal strength measured by a phone next to the Kobo: Page Turner -44 dBm;
+  HLITE2 -95 and HPUMP -94, both of which the Kobo *does* receive. TX power is
+  not the problem, so test F was skipped.
+
+### HCI snoop log from the Kobo (kobo-bt-dump/btsnoop.sh)
+- The log covers 85 s of discovery: 1092 LE advertising reports from 27
+  different advertisers, including legacy ADV_IND/SCAN_RSP, public and random
+  addresses, and devices much weaker than the board.
+- **Not one packet from the board.** Neither address appears anywhere in the
+  raw log, and neither does the name, even though the board was advertising
+  the whole time.
+- How the Kobo scans: LE Extended Scan, 1M PHY, active, interval = window =
+  5 s, no duplicate filtering. It runs alongside BR/EDR inquiry, about 11 s on,
+  then ~4 s off.
+
+**Conclusion:** the Kobo's MediaTek Bluetooth chip never decodes this board's
+radio packets, though phones and PCs do. Nothing in the advertisement, the
+address or the transmit power changes that. So the cause is in the radio
+signal itself. The prime suspect is the clone ("nice!nano clone")
+board's RF: carrier frequency accuracy from its 32 MHz crystal, or its
+RF matching. The nRF52840 has no firmware trim for the 32 MHz crystal, so a
+board-firmware fix is unlikely.
+
 ## What Copilot tried before (all unsuccessful)
 
 Rebuilt from git history. None of these touched pairing security.
