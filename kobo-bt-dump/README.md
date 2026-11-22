@@ -34,3 +34,12 @@ Eject the Kobo.
    seconds.
 4. Plug the Kobo into your PC and send me `btdump.txt` from the root of the
    Kobo drive. You can paste its contents into this chat.
+
+## Bluetooth probe (read-only)
+`btprobe.sh` looks for Bluetooth config files and checks whether Kobo's
+MediaTek Bluetooth software has a built-in radio-level ("btsnoop") log.
+
+To install it, copy `btprobe.sh` to `.adds/btprobe.sh`. Replace
+`.adds/nm/btdump` with the new version, which adds the menu item. Turn
+Bluetooth on, then tap **Bluetooth probe (read-only)** and wait about a
+minute. Then send `btprobe.txt` from the root of the Kobo drive.

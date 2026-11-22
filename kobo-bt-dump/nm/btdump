@@ -1,2 +1,4 @@
 menu_item:main:Bluetooth scan dump:cmd_spawn:quiet:/bin/sh /mnt/onboard/.adds/btdump.sh
   chain_success:dbg_toast:Scanning 30s - then connect USB and copy btdump.txt
+menu_item:main:Bluetooth probe (read-only):cmd_spawn:quiet:/bin/sh /mnt/onboard/.adds/btprobe.sh
+  chain_success:dbg_toast:Probing about 1 minute - then connect USB and copy btprobe.txt
