@@ -2,3 +2,9 @@ menu_item:main:Bluetooth scan dump:cmd_spawn:quiet:/bin/sh /mnt/onboard/.adds/bt
   chain_success:dbg_toast:Scanning 30s - then connect USB and copy btdump.txt
 menu_item:main:Bluetooth probe (read-only):cmd_spawn:quiet:/bin/sh /mnt/onboard/.adds/btprobe.sh
   chain_success:dbg_toast:Probing about 1 minute - then connect USB and copy btprobe.txt
+menu_item:main:BT log 1 - turn ON and reboot:cmd_output:5000:quiet:/bin/sh /mnt/onboard/.adds/btsnoop.sh on
+  chain_success:power:reboot
+menu_item:main:BT log 2 - save to USB drive:cmd_output:5000:quiet:/bin/sh /mnt/onboard/.adds/btsnoop.sh collect
+  chain_success:dbg_toast:Saved - connect USB and copy btsnoop_hci.log
+menu_item:main:BT log 3 - turn OFF and reboot:cmd_output:5000:quiet:/bin/sh /mnt/onboard/.adds/btsnoop.sh off
+  chain_success:power:reboot
