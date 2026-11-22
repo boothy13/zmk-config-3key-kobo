@@ -49,3 +49,13 @@ include:
     snippet: studio-rpc-usb-uart
     cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_BLE_ADV_NAME_IN_SCAN_RSP=y
     artifact-name: kobo_test_D_name_in_scan_response
+  - board: nice_nano
+    shield: mini_keyboard
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_BLE_IDENTITY_ADDR=\"F2:4B:1E:7A:33:C5\"
+    artifact-name: kobo_test_E_new_address
+  - board: nice_nano
+    shield: mini_keyboard
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_BT_CTLR_TX_PWR_PLUS_8=y
+    artifact-name: kobo_test_F_max_tx_power

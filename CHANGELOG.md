@@ -76,6 +76,12 @@ the advertisement optional. `build.yaml` builds one test firmware per change:
 | `kobo_test_B_no_appearance` | flags + UUIDs + name |
 | `kobo_test_C_no_service_uuids` | appearance + flags + name |
 | `kobo_test_D_name_in_scan_response` | stock, but the name is in the scan response |
+| `kobo_test_E_new_address` | stock, with a different identity address, F2:4B:1E:7A:33:C5 (`0003` patch; flash settings_reset first) |
+| `kobo_test_F_max_tx_power` | stock, with +8 dBm transmit power |
+
+Result of test A: still not seen by the Kobo, so the advertisement contents
+are not the (only) cause. Tests E and F check the address and signal strength
+next.
 
 ## What Copilot tried before (all unsuccessful)
 

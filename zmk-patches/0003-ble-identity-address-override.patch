@@ -1,0 +1,50 @@
+diff --git a/app/Kconfig b/app/Kconfig
+index 49d7de43..11011769 100644
+--- a/app/Kconfig
++++ b/app/Kconfig
+@@ -194,6 +194,13 @@ config ZMK_BLE_ADV_SERVICE_UUIDS
+ config ZMK_BLE_ADV_NAME_IN_SCAN_RSP
+     bool "Send the device name in the scan response instead of the advertising packet"
+ 
++config ZMK_BLE_IDENTITY_ADDR
++    string "Override the BLE identity address (static random, e.g. F2:4B:1E:7A:33:C5)"
++    default ""
++    help
++      Empty keeps the chip's factory address. Flash settings_reset first when
++      changing it, so no identity stored in flash takes precedence.
++
+ config ZMK_BLE_PASSKEY_ENTRY
+     bool "Require passkey entry on the keyboard to complete pairing"
+     select RING_BUFFER
+diff --git a/app/src/ble.c b/app/src/ble.c
+index 8819e4db..b3da1410 100644
+--- a/app/src/ble.c
++++ b/app/src/ble.c
+@@ -741,7 +741,26 @@ static int zmk_ble_complete_startup(void) {
+ }
+ 
+ static int zmk_ble_init(void) {
+-    int err = bt_enable(NULL);
++    int err;
++
++#if defined(CONFIG_ZMK_BLE_IDENTITY_ADDR)
++    if (sizeof(CONFIG_ZMK_BLE_IDENTITY_ADDR) > 1) {
++        bt_addr_le_t id_addr;
++
++        err = bt_addr_le_from_str(CONFIG_ZMK_BLE_IDENTITY_ADDR, "random", &id_addr);
++        if (err) {
++            LOG_ERR("Invalid CONFIG_ZMK_BLE_IDENTITY_ADDR (%d)", err);
++        } else {
++            /* Before bt_enable() this replaces the default identity address. */
++            err = bt_id_create(&id_addr, NULL);
++            if (err < 0) {
++                LOG_ERR("Failed to set identity address (%d)", err);
++            }
++        }
++    }
++#endif
++
++    err = bt_enable(NULL);
+ 
+     if (err < 0 && err != -EALREADY) {
+         LOG_ERR("BLUETOOTH FAILED (%d)", err);
